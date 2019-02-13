@@ -18,8 +18,8 @@ from google.protobuf import text_format
 import caffe
 
 def extractVideo(inputdir, outputdir):
-    print subprocess.Popen('ffmpeg -i ' + inputdir + ' -f image2 ' + outputdir + '/%08d.png', shell=True,
-                           stdout=subprocess.PIPE).stdout.read()
+    print(subprocess.Popen('ffmpeg -i ' + inputdir + ' -f image2 ' + outputdir + '/%08d.png', shell=True,
+                           stdout=subprocess.PIPE).stdout.read())
 
 def showarray(a, fmt='jpeg'):
     a = np.uint8(np.clip(a, 0, 255))
