@@ -9,7 +9,7 @@ import time
 import subprocess
 from random import randint
 
-from cStringIO import StringIO
+from io.cStringIO import StringIO
 import numpy as np
 import scipy.ndimage as nd
 import PIL.Image
