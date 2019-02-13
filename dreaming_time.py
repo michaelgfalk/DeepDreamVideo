@@ -9,10 +9,10 @@ import time
 import subprocess
 from random import randint
 
-from io.cStringIO import StringIO
+from io import StringIO
 import numpy as np
 import scipy.ndimage as nd
-import PIL.Image
+from PIL import Image
 from google.protobuf import text_format
 
 import caffe
@@ -24,13 +24,13 @@ def extractVideo(inputdir, outputdir):
 def showarray(a, fmt='jpeg'):
     a = np.uint8(np.clip(a, 0, 255))
     f = StringIO()
-    PIL.Image.fromarray(a).save(f, fmt)
+    Image.fromarray(a).save(f, fmt)
     display(Image(data=f.getvalue()))
 
 def showarrayHQ(a, fmt='png'):
     a = np.uint8(np.clip(a, 0, 255))
     f = StringIO()
-    PIL.Image.fromarray(a).save(f, fmt)
+    Image.fromarray(a).save(f, fmt)
     display(Image(data=f.getvalue()))
 
 # a couple of utility functions for converting to and from Caffe's input image layout
@@ -72,7 +72,7 @@ def prepare_guide(net, image, end="inception_4c/output", maxW=224, maxH=224):
 
             # resize the image
             (nW, nH) = (int(r * w), int(r * h))
-            image = np.float32(image.resize((nW, nH), PIL.Image.BILINEAR))
+            image = np.float32(image.resize((nW, nH), Image.BILINEAR))
 
         (src, dst) = (net.blobs["data"], net.blobs[end])
         src.reshape(1, 3, nH, nW)
@@ -220,18 +220,18 @@ def deepdream_guided(net, base_img, image_type, iter_n=10, octave_n=4, octave_sc
     return deprocess(net, src.data[0])
 
 def resizePicture(image,width):
-    img = PIL.Image.open(image)
+    img = Image.open(image)
     basewidth = width
     wpercent = (basewidth/float(img.size[0]))
     hsize = int((float(img.size[1])*float(wpercent)))
-    return img.resize((basewidth,hsize), PIL.Image.ANTIALIAS)
+    return img.resize((basewidth,hsize), Image.ANTIALIAS)
 
 def morphPicture(filename1,filename2,blend,width):
-    img1 = PIL.Image.open(filename1)
-    img2 = PIL.Image.open(filename2)
+    img1 = Image.open(filename1)
+    img2 = Image.open(filename2)
     if width is not 0:
         img2 = resizePicture(filename2,width)
-    return PIL.Image.blend(img1, img2, blend)
+    return Image.blend(img1, img2, blend)
 
 def make_sure_path_exists(path):
     '''
@@ -305,7 +305,7 @@ def main(input, output, image_type, gpu, model_path, model_name, preview, octave
     if verbose == 3:
         from IPython.display import clear_output, Image, display
         print("display turned on")
-    frame = np.float32(PIL.Image.open(input + '/%08d.%s' % (frame_i, image_type) ))
+    frame = np.float32(Image.open(input + '/%08d.%s' % (frame_i, image_type) ))
     if preview is not 0:
         frame = np.float32(resizePicture(input + '/%08d.%s' % (frame_i, image_type), preview))
 
@@ -330,9 +330,9 @@ def main(input, output, image_type, gpu, model_path, model_name, preview, octave
         if guide_image is None:
             frame = deepdream(net, frame, image_type=image_type, verbose=verbose, iter_n = iterations, step_size = stepsize, octave_n = octaves, octave_scale = octave_scale, jitter=jitter, end = endparam)
         else:
-            guide = np.float32(PIL.Image.open(guide_image))
+            guide = np.float32(Image.open(guide_image))
             print('Setting up Guide with selected image')
-            guide_features = prepare_guide(net,PIL.Image.open(guide_image), end=endparam)
+            guide_features = prepare_guide(net,Image.open(guide_image), end=endparam)
 
             frame = deepdream_guided(net, frame, image_type=image_type, verbose=verbose, iter_n = iterations, step_size = stepsize, octave_n = octaves, octave_scale = octave_scale, jitter=jitter, end = endparam, objective_fn=objective_guide, guide_features=guide_features,)
 
@@ -353,11 +353,11 @@ def main(input, output, image_type, gpu, model_path, model_name, preview, octave
         print('Estimated Total Time Remaining: ' + str(timeleft) + 's (' + "%d:%02d:%02d" % (h, m, s) + ')')
         print('***************************************')
 
-        PIL.Image.fromarray(np.uint8(frame)).save(saveframe)
+        Image.fromarray(np.uint8(frame)).save(saveframe)
         newframe = input + "/%08d.%s" % (frame_i,image_type)
 
         if blend == 0:
-            newimg = PIL.Image.open(newframe)
+            newimg = Image.open(newframe)
             if preview is not 0:
                 newimg = resizePicture(newframe,preview)
             frame = newimg
