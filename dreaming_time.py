@@ -251,8 +251,8 @@ layersloop = ['inception_4c/output', 'inception_4d/output',
               'inception_4c/output']
 
 def main(input, output, image_type, gpu, model_path, model_name, preview, octaves, octave_scale, iterations, jitter, zoom, stepsize, blend, layers, guide_image, start_frame, end_frame, verbose):
-    make_sure_path_exists(input)
-    make_sure_path_exists(output)
+    # make_sure_path_exists(input)
+    # make_sure_path_exists(output)
 
      # let max nr of frames
     nrframes =len([name for name in os.listdir(input) if os.path.isfile(os.path.join(input, name))])
