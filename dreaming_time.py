@@ -111,7 +111,7 @@ def deepdream(net, base_img, image_type, iter_n=10, octave_n=4, octave_scale=1.4
 
     # prepare base images for all octaves
     octaves = [preprocess(net, base_img)]
-    for i in xrange(octave_n - 1):
+    for i in range(octave_n - 1):
         octaves.append(nd.zoom(octaves[-1], (1, 1.0 / octave_scale, 1.0 / octave_scale), order=1))
 
     src = net.blobs['data']
@@ -125,7 +125,7 @@ def deepdream(net, base_img, image_type, iter_n=10, octave_n=4, octave_scale=1.4
 
         src.reshape(1,3,h,w) # resize the network's input image size
         src.data[0] = octave_base+detail
-        for i in xrange(iter_n):
+        for i in range(iter_n):
             make_step(net, end=end, clip=clip, **step_params)
 
             # visualization
@@ -183,7 +183,7 @@ def deepdream_guided(net, base_img, image_type, iter_n=10, octave_n=4, octave_sc
 
     # prepare base images for all octaves
     octaves = [preprocess(net, base_img)]
-    for i in xrange(octave_n-1):
+    for i in range(octave_n-1):
         octaves.append(nd.zoom(octaves[-1], (1, 1.0/octave_scale,1.0/octave_scale), order=1))
 
     src = net.blobs['data']
@@ -197,7 +197,7 @@ def deepdream_guided(net, base_img, image_type, iter_n=10, octave_n=4, octave_sc
 
         src.reshape(1,3,h,w) # resize the network's input image size
         src.data[0] = octave_base+detail
-        for i in xrange(iter_n):
+        for i in range(iter_n):
             make_step_guided(net, end=end, clip=clip, objective_fn=objective_fn, **step_params)
 
             # visualization
@@ -317,7 +317,7 @@ def main(input, output, image_type, gpu, model_path, model_name, preview, octave
         blend_at = 0.4
         blend_step = 0.1
 
-    for i in xrange(frame_i, nrframes):
+    for i in range(frame_i, nrframes):
         print('Processing frame #{}').format(frame_i)
 
         #Choosing Layer
