@@ -302,9 +302,9 @@ def main(input, output, image_type, gpu, model_path, model_name, preview, octave
                            mean = np.float32([104.0, 116.0, 122.0]), # ImageNet mean, training set dependent
                            channel_swap = (2,1,0)) # the reference model has channels in BGR order instead of RGB
 
-    if verbose == 3:
+"""     if verbose == 3:
         from IPython.display import clear_output, Image, display
-        print("display turned on")
+        print("display turned on") """
     frame = np.float32(Image.open(input + '/%08d.%s' % (frame_i, image_type) ))
     if preview is not 0:
         frame = np.float32(resizePicture(input + '/%08d.%s' % (frame_i, image_type), preview))
