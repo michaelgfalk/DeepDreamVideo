@@ -318,7 +318,7 @@ def main(input, output, image_type, gpu, model_path, model_name, preview, octave
         blend_step = 0.1
 
     for i in range(frame_i, nrframes):
-        print('Processing frame #{}').format(frame_i)
+        print(f'Processing frame {frame_i}')
 
         #Choosing Layer
         if layers == 'customloop': #loop over layers as set in layersloop array
